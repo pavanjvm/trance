@@ -3,7 +3,7 @@ name: Mirror to GitLab
 on:
   push:
     branches:
-      - main  # Specify branches you want to mirror
+      - main  # Specify the branches you want to mirror
 
 jobs:
   mirror:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Fetch the entire history to avoid shallow update issues
 
       - name: Set up Git config
         run: |
@@ -33,6 +35,6 @@ jobs:
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
-          # Push changes to GitLab
-          git push -u gitlab --all
-          git push -u gitlab --tags
+          # Push changes to GitLab without force
+          git push gitlab main
+          git push gitlab --tags
