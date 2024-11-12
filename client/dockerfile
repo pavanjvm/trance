@@ -11,7 +11,7 @@ COPY ./client/package*.json ./
 RUN npm install --legacy-peer-deps
 
 # Copy the rest of the code from the client folder into the container
-COPY ../client/ ./
+COPY client
 
 # Build the frontend app
 RUN npm run build
