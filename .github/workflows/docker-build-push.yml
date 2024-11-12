@@ -84,7 +84,7 @@ deploy-server:
         sudo docker rm server-container || true
         sudo docker run -d --name server-container -p 3000:3000 pavanprasaf/tranceci:server-latest
 
- # Deploy Client on EC2
+
 deploy-client:
   needs: build-and-push
   runs-on: ubuntu-latest
