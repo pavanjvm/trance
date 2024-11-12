@@ -103,5 +103,5 @@ This should start both the client and server on your local host at ports 3000 (s
 
 ---
 
-With these steps, you're set up to utilize Trance effectively in your development environment!
+With these steps, you're set up to utilize Trance effectively in your development environment !
 
