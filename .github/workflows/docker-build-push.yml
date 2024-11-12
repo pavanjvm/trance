@@ -82,7 +82,7 @@ jobs:
           sudo docker pull pavanprasaf/tranceci:client-latest
           sudo docker stop client-container || true
           sudo docker rm client-container || true
-          sudo docker run -d --name client-container -p 3001:3001 pavanprasaf/tranceci:client-latest
+          sudo docker run -d --name client-container -p 80:80 pavanprasaf/tranceci:client-latest
 
   deploy-server:
     needs: build-and-push
