@@ -59,54 +59,52 @@ jobs:
       run: |
         docker push pavanprasaf/tranceci:server-latest
 
-deploy-server:
-  needs: build-and-push
-  runs-on: ubuntu-latest
-  steps:
-  - name: Deploy Server on EC2
-    uses: appleboy/ssh-action@v0.1.5
-    with:
-      host: ${{ secrets.SERVER_EC2_HOST }}
-      username: ${{ secrets.EC2_USERNAME }}
-      key: ${{ secrets.EC2_SSH_KEY }}
-      port: 22
-      script: |
-        # Install Docker if not installed
-        if ! command -v docker &> /dev/null; then
-          sudo apt-get update -y
-          sudo apt-get install -y docker.io
-          sudo systemctl start docker
-          sudo systemctl enable docker
-        fi
-        # Pull and run server container with sudo
-        sudo docker pull pavanprasaf/tranceci:server-latest
-        sudo docker stop server-container || true
-        sudo docker rm server-container || true
-        sudo docker run -d --name server-container -p 3000:3000 pavanprasaf/tranceci:server-latest
+  deploy-client:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy Client on EC2
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.CLIENT_EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        script: |
+          # Install Docker if not installed
+          if ! command -v docker &> /dev/null; then
+            sudo apt-get update -y
+            sudo apt-get install -y docker.io
+            sudo systemctl start docker
+            sudo systemctl enable docker
+          fi
+          # Pull and run client container with sudo
+          sudo docker pull pavanprasaf/tranceci:client-latest
+          sudo docker stop client-container || true
+          sudo docker rm client-container || true
+          sudo docker run -d --name client-container -p 3001:3001 pavanprasaf/tranceci:client-latest
 
-
-deploy-client:
-  needs: build-and-push
-  runs-on: ubuntu-latest
-  steps:
-  - name: Deploy Client on EC2
-    uses: appleboy/ssh-action@v0.1.5
-    with:
-      host: ${{ secrets.CLIENT_EC2_HOST }}
-      username: ${{ secrets.EC2_USERNAME }}
-      key: ${{ secrets.EC2_SSH_KEY }}
-      port: 22
-      script: |
-        # Install Docker if not installed
-        if ! command -v docker &> /dev/null; then
-          sudo apt-get update -y
-          sudo apt-get install -y docker.io
-          sudo systemctl start docker
-          sudo systemctl enable docker
-        fi
-        # Pull and run client container with sudo
-        sudo docker pull pavanprasaf/tranceci:client-latest
-        sudo docker stop client-container || true
-        sudo docker rm client-container || true
-        sudo docker run -d --name client-container -p 3001:3001 pavanprasaf/tranceci:client-latest
-
+  deploy-server:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy Server on EC2
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.SERVER_EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        script: |
+          # Install Docker if not installed
+          if ! command -v docker &> /dev/null; then
+            sudo apt-get update -y
+            sudo apt-get install -y docker.io
+            sudo systemctl start docker
+            sudo systemctl enable docker
+          fi
+          # Pull and run server container with sudo
+          sudo docker pull pavanprasaf/tranceci:server-latest
+          sudo docker stop server-container || true
+          sudo docker rm server-container || true
+          sudo docker run -d --name server-container -p 3000:3000 pavanprasaf/tranceci:server-latest
