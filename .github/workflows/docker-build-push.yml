@@ -35,7 +35,7 @@ jobs:
     # Step 5: Tag frontend Docker image for Docker Hub
     - name: Tag frontend Docker image
       run: |
-        docker tag myapp-frontend:latest pavanprasaf/tranceci:frontend-latest
+        docker tag client-image:latest pavanprasaf/tranceci:client-latest
 
     # Step 6: Build the backend Docker image
     - name: Build backend Docker image
@@ -47,14 +47,14 @@ jobs:
     # Step 7: Tag backend Docker image for Docker Hub
     - name: Tag backend Docker image
       run: |
-        docker tag myapp-backend:latest pavanprasaf/tranceci:backend-latest
+        docker tag server-image:latest pavanprasaf/tranceci:server-latest
 
     # Step 8: Push the frontend Docker image to Docker Hub
     - name: Push frontend Docker image to Docker Hub
       run: |
-        docker push pavanprasaf/tranceci:frontend-latest
+        docker push pavanprasaf/tranceci:client-latest
 
     # Step 9: Push the backend Docker image to Docker Hub
     - name: Push backend Docker image to Docker Hub
       run: |
-        docker push pavanprasaf/tranceci:backend-latest
+        docker push pavanprasaf/tranceci:server-latest
