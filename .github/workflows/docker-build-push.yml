@@ -82,7 +82,7 @@ jobs:
           docker pull pavanprasaf/tranceci:client-latest
           docker stop client-container || true
           docker rm client-container || true
-          docker run -d --name client-container -p 80:80 pavanprasaf/tranceci:client-latest
+          docker run -d --name client-container -p 3001:3001 pavanprasaf/tranceci:client-latest
 
   deploy-server:
     needs: build-and-push
@@ -107,4 +107,4 @@ jobs:
           docker pull pavanprasaf/tranceci:server-latest
           docker stop server-container || true
           docker rm server-container || true
-          docker run -d --name server-container -p 5000:5000 pavanprasaf/tranceci:server-latest
+          docker run -d --name server-container -p 3000:3000 pavanprasaf/tranceci:server-latest
