@@ -82,8 +82,8 @@ jobs:
           sudo docker pull pavanprasaf/tranceci:client-latest
           sudo docker stop client-container || true
           sudo docker rm client-container || true
-          sudo docker run -d --name client-container -p 80:80 pavanprasaf/tranceci:client-latest
-
+          sudo docker run -d --name client-container -p 80:3000 pavanprasaf/tranceci:client-latest
+#heuhe eiiejegit 
   deploy-server:
     needs: build-and-push
     runs-on: ubuntu-latest
@@ -107,4 +107,5 @@ jobs:
           sudo docker pull pavanprasaf/tranceci:server-latest
           sudo docker stop server-container || true
           sudo docker rm server-container || true
-          sudo docker run -d --name server-container -p 3000:3000 pavanprasaf/tranceci:server-latest
+          sudo docker run -d --name server-container -p 3001:3000 pavanprasaf/tranceci:server-latest
+#heyyehye euhib 
