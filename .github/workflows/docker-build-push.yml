@@ -30,7 +30,7 @@ jobs:
       run: |
         cd ./client
         npm install --legacy-peer-deps
-        docker build -t myapp-frontend:latest -f ./Dockerfile .
+        docker build -t client-image:latest -f ./Dockerfile .
 
     # Step 5: Tag frontend Docker image for Docker Hub
     - name: Tag frontend Docker image
@@ -42,7 +42,7 @@ jobs:
       run: |
         cd ./server
         npm install
-        docker build -t myapp-backend:latest -f ./Dockerfile .
+        docker build -t server-image:latest -f ./Dockerfile .
 
     # Step 7: Tag backend Docker image for Docker Hub
     - name: Tag backend Docker image
