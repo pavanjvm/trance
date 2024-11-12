@@ -1,9 +1,9 @@
-name: Build and Push Docker Images to Docker Hub
+name: Build, Push Docker Images to Docker Hub, and Deploy to EC2
 
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the main branch (adjust if needed)
+      - main  # Trigger the workflow on push to the main branch
 
 jobs:
   build-and-push:
@@ -58,3 +58,53 @@ jobs:
     - name: Push backend Docker image to Docker Hub
       run: |
         docker push pavanprasaf/tranceci:server-latest
+
+  deploy-client:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy Client on EC2
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.CLIENT_EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        script: |
+          # Install Docker if not installed
+          if ! command -v docker &> /dev/null; then
+            sudo apt-get update -y
+            sudo apt-get install -y docker.io
+            sudo systemctl start docker
+            sudo systemctl enable docker
+          fi
+          # Pull and run client container
+          docker pull pavanprasaf/tranceci:client-latest
+          docker stop client-container || true
+          docker rm client-container || true
+          docker run -d --name client-container -p 80:80 pavanprasaf/tranceci:client-latest
+
+  deploy-server:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy Server on EC2
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.SERVER_EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        script: |
+          # Install Docker if not installed
+          if ! command -v docker &> /dev/null; then
+            sudo apt-get update -y
+            sudo apt-get install -y docker.io
+            sudo systemctl start docker
+            sudo systemctl enable docker
+          fi
+          # Pull and run server container
+          docker pull pavanprasaf/tranceci:server-latest
+          docker stop server-container || true
+          docker rm server-container || true
+          docker run -d --name server-container -p 5000:5000 pavanprasaf/tranceci:server-latest
