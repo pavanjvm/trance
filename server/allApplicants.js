@@ -10,7 +10,7 @@ const getUserProfilesByJobId = async (req, res) => {
             return res.status(400).json({ error: "jobId is required" });
         }
 
-        // Search for the job by jobId
+        // Search for the job by jobI
         const job = await Job.findOne({ jobId });
 
         // Check if the job exists
