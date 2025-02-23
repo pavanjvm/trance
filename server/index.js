@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 const port = process.env.PORT || 3000; // ✅ Use EB-assigned port
-
+//hi
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(express.json());
