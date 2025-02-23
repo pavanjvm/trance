@@ -115,5 +115,5 @@ const getAllUserProfiles = async (req,res) => {
     }
 };
 
-
+//ji
 module.exports = { getUserProfilesByJobId, getShortlistedUserProfilesByJobId, getAllUserProfiles };
