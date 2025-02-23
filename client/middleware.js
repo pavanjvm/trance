@@ -10,3 +10,4 @@ export const config = {
 };
 
 export default NextAuthMiddleware;
+//
